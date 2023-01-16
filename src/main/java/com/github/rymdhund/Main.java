@@ -9,6 +9,7 @@ import java.nio.charset.Charset;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException, IOException {
+        // It's difficult to capture a single keypress in a platform independent way, so we use a library for this
         DefaultTerminalFactory factory = new DefaultTerminalFactory(System.out, System.in, Charset.defaultCharset());
         try(Terminal terminal = factory.createHeadlessTerminal()) {
             mainLoop(terminal);
@@ -21,9 +22,7 @@ public class Main {
         while (!quit) {
             Ui.drawGame(game);
 
-            KeyStroke key;
-            key = terminal.readInput();
-
+            KeyStroke key = terminal.readInput();
             switch (key.getKeyType()) {
                 case ArrowLeft -> game.moveLeft();
                 case ArrowRight -> game.moveRight();
@@ -34,7 +33,7 @@ public class Main {
                         case ' ' -> {
                             int selected = game.selectCurrentCard();
                             if (selected == 2) {
-                                // We've selected 2 cards. Show them for 2 seconds before we continue
+                                // We've selected 2 cards. Show them for 2 seconds before we continue.
                                 Ui.drawGame(game);
                                 Thread.sleep(2000);
                                 game.clearSelected();
@@ -48,6 +47,7 @@ public class Main {
             if (game.isFinished()) {
                 Ui.drawFinished(game);
                 if (terminal.readInput().getCharacter().equals('y')) {
+                    // Start new game
                     game = new Game();
                 } else {
                     quit = true;

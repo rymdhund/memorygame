@@ -12,21 +12,29 @@ public class Game {
     public static final int COLUMNS = 4;
     private Position currentPos;
     private int score;
-    private final List<Color> colors;
+    private final List<Color> cardColors;
+
+    /**
+     * The currently selected cards
+     */
     private final List<Position> selected;
+
+    /**
+     * The cards that have been found
+     */
     private final Set<Position> found;
 
     public Game() {
         this(randomColors());
     }
 
-    public Game(List<Color> colors) {
-        if (colors.size() != ROWS * COLUMNS) {
+    public Game(List<Color> cardColors) {
+        if (cardColors.size() != ROWS * COLUMNS) {
             throw new IllegalArgumentException("Expected "+ (ROWS * COLUMNS)  + " colors");
         }
         this.currentPos = new Position(0, 0);
         this.found = new HashSet<>();
-        this.colors = colors;
+        this.cardColors = cardColors;
         this.selected = new ArrayList<>();
     }
 
@@ -65,7 +73,7 @@ public class Game {
      * Get the color of a card at a position
      */
     public Color cardColor(Position position) {
-        return this.colors.get(position.row() * 4 + position.col());
+        return cardColors.get(position.row() * 4 + position.col());
     }
 
     /**

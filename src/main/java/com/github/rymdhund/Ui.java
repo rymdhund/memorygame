@@ -1,5 +1,8 @@
 package com.github.rymdhund;
 
+/**
+ * A class for drawing our ui to a terminal. Uses ansii escape codes.
+ */
 public class Ui {
     private static final int BOX_SIZE = 5;
 
@@ -18,6 +21,7 @@ public class Ui {
             case BLACK -> 16;
         };
     }
+
     private static void draw(Color color, int numPixels) {
         System.out.print("\033[48;5;" + colorCode(color) + "m");
         System.out.print(" ".repeat(numPixels));
@@ -56,12 +60,12 @@ public class Ui {
         }
         gotoPos(0, BOX_SIZE * Game.ROWS);
         System.out.println("Score: " + game.getScore());
-        System.out.println("");
+        System.out.println();
         System.out.println("arrows: move    space: select      q: quit");
     }
 
     /**
-     * Get the outline of a box at a specific coord
+     * Get the outline of a box at a specific position
      */
     private static Color getBoxOutline(Game game, Position pos) {
         if(game.isSelected(pos)) {
@@ -74,7 +78,7 @@ public class Ui {
     }
 
     /**
-     * Get the filling of a box at a specific coord
+     * Get the filling of a box at a specific position
      */
     private static Color getBoxFilling(Game game, Position pos) {
         if(game.isSelected(pos)) {
